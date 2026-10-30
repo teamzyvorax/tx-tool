@@ -10,6 +10,27 @@ done
 
 clear_screen() { command -v clear >/dev/null 2>&1 && clear || printf '\n'; }
 pause() { read -r -p $'\nPress Enter to continue...' _; }
+help_menu() {
+  cat <<'HELP'
+ZYVORAX ULTRA — HELP & SAFETY
+
+• Works inside Termux on Android; no root access is required.
+• Network diagnostics only make ordinary DNS, ping and HTTPS requests.
+• File operations use the paths you enter. Check them before confirming.
+• ZIP extraction uses unzip -n to avoid overwriting existing files.
+• Package upgrades and cache cleanup require your selection.
+• Local web server is reachable on this device at 127.0.0.1.
+• Battery details require the separate Termux:API Android app and package.
+
+Useful commands:
+  pkg update
+  pkg upgrade
+  termux-setup-storage
+  zyvorax
+
+Project: https://github.com/teamzyvorax/tx-tool
+HELP
+}
 header() {
   clear_screen
   printf '\033[1;36m'
