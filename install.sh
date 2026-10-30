@@ -11,8 +11,10 @@ if [[ -z "${HOME:-}" || ! -d "$PREFIX" ]] || ! command -v pkg >/dev/null 2>&1; t
   exit 1
 fi
 
+echo "Updating package lists..."
+pkg update
 echo "Installing required Termux packages..."
-pkg install -y bash coreutils findutils zip unzip tar curl iproute2 iputils dnsutils python git
+pkg install -y bash coreutils findutils zip unzip tar curl iproute2 dnsutils python git
 
 mkdir -p "$APP_DIR/modules" "$BIN_DIR"
 cp "$ROOT_DIR/bin/zyvorax" "$APP_DIR/zyvorax"
