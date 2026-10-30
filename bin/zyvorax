@@ -1,0 +1,50 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -u
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+for module in system network files coding maintenance; do
+  if [[ -f "$APP_DIR/modules/$module.sh" ]]; then
+    # shellcheck source=/dev/null
+    source "$APP_DIR/modules/$module.sh"
+  fi
+done
+
+clear_screen() { command -v clear >/dev/null 2>&1 && clear || printf '\n'; }
+pause() { read -r -p $'\nPress Enter to continue...' _; }
+header() {
+  clear_screen
+  printf '\033[1;36m'
+  cat <<'LOGO'
+ ███████╗██╗   ██╗██╗   ██╗ ██████╗ ██████╗  █████╗ ██╗  ██╗
+ ╚══███╔╝╚██╗ ██╔╝██║   ██║██╔═══██╗██╔══██╗██╔══██╗╚██╗██╔╝
+   ███╔╝  ╚████╔╝ ██║   ██║██║   ██║██████╔╝███████║ ╚███╔╝
+  ███╔╝    ╚██╔╝  ██║   ██║██║   ██║██╔══██╗██╔══██║ ██╔██╗
+ ███████╗   ██║   ╚██████╔╝╚██████╔╝██║  ██║██║  ██║██╔╝ ██╗
+ ╚══════╝   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+LOGO
+  printf '\033[0m\n'
+  echo "             ULTRA • TERMUX TOOLKIT"
+  echo "-----------------------------------------------"
+}
+while true; do
+  header
+  cat <<'MENU'
+ [1] Device & system information
+ [2] Network diagnostics
+ [3] File tools
+ [4] Developer tools
+ [5] Maintenance
+ [6] Help & safety
+ [0] Exit
+MENU
+  read -r -p "ZYVORAX > " choice
+  case "$choice" in
+    1) system_menu; pause ;;
+    2) network_menu; pause ;;
+    3) files_menu; pause ;;
+    4) coding_menu; pause ;;
+    5) maintenance_menu; pause ;;
+    6) help_menu; pause ;;
+    0) echo "Thanks for using ZYVORAX ULTRA."; exit 0 ;;
+    *) echo "Invalid option."; pause ;;
+  esac
+done
