@@ -6,10 +6,13 @@ PREFIX="${PREFIX:-/data/data/com.termux/files/usr}"
 BIN_DIR="$PREFIX/bin"
 APP_DIR="$HOME/.zyvorax"
 
-if [[ -z "${HOME:-}" || ! -d "$PREFIX" ]]; then
+if [[ -z "${HOME:-}" || ! -d "$PREFIX" ]] || ! command -v pkg >/dev/null 2>&1; then
   echo "ERROR: This installer must be run inside Termux."
   exit 1
 fi
+
+echo "Installing required Termux packages..."
+pkg install -y bash coreutils findutils zip unzip tar curl iproute2 iputils dnsutils python git
 
 mkdir -p "$APP_DIR/modules" "$BIN_DIR"
 cp "$ROOT_DIR/bin/zyvorax" "$APP_DIR/zyvorax"
@@ -25,4 +28,4 @@ chmod 755 "$BIN_DIR/zyvorax"
 echo
 echo "ZYVORAX ULTRA installed successfully."
 echo "Run: zyvorax"
-echo "Optional battery support: pkg install termux-api, then install the Termux:API Android app."
+echo "Optional battery support: install the Termux:API Android app, then run: pkg install termux-api"
