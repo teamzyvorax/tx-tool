@@ -14,14 +14,20 @@ maintenance_menu() {
       2)
         echo "This may download and upgrade many packages."
         read -r -p "Continue? [y/N] " ok
-        [[ "$ok" == y || "$ok" == Y ]] && pkg upgrade
+        case "$ok" in y|Y|yes|YES) pkg upgrade -y ;; *) echo "Cancelled." ;; esac
         ;;
       3)
         read -r -p "Clean downloaded package cache? [y/N] " ok
-        [[ "$ok" == y || "$ok" == Y ]] && apt clean
+        case "$ok" in y|Y|yes|YES) apt clean ;; *) echo "Cancelled." ;; esac
         ;;
       4) pkg list-installed ;;
-      5) dpkg-query -W -f='\${binary:Package}\n' 2>/dev/null | wc -l ;;
+      5)
+        if command -v dpkg-query >/dev/null 2>&1; then
+          dpkg-query -W -f='${binary:Package}\n' 2>/dev/null | wc -l
+        else
+          echo "dpkg-query is unavailable."
+        fi
+        ;;
       0) return ;;
       *) echo "Invalid option." ;;
     esac
